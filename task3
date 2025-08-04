@@ -1,0 +1,81 @@
+html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Collaborative Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="editor-container">
+    <h2>📝 Collaborative Document Editor</h2>
+    <textarea id="editor" placeholder="Start typing..."></textarea>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+css
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const docRef = db.collection("documents").doc("shared-doc");
+
+const editor = document.getElementById("editor");
+
+// Get real-time updates
+docRef.onSnapshot((doc) => {
+  if (doc.exists) {
+    const data = doc.data();
+    if (editor.value !== data.text) {
+      editor.value = data.text;
+    }
+  }
+});
+
+// Update document on input
+editor.addEventListener("input", () => {
+  docRef.set({ text: editor.value });
+});
+jss
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const docRef = db.collection("documents").doc("shared-doc");
+
+const editor = document.getElementById("editor");
+
+// Get real-time updates
+docRef.onSnapshot((doc) => {
+  if (doc.exists) {
+    const data = doc.data();
+    if (editor.value !== data.text) {
+      editor.value = data.text;
+    }
+  }
+});
+
+// Update document on input
+editor.addEventListener("input", () => {
+  docRef.set({ text: editor.value });
+});
